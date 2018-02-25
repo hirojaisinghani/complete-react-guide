@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Radium, {StyleRoot} from 'radium';
 import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person.js';
@@ -57,15 +58,22 @@ class App extends Component {
   
   render()  {
     const style = {
-      backgroundColor: 'blue',
+      backgroundColor: 'green',
       border: '1px solid blue',
       cursor: 'pointer',
+      color:'black',
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'pink',
+        color: 'blue'
+      }
     }
     let  Persons = null;
 
     if(this.state.showPersons) {
 
       Persons = ( 
+        <StyleRoot>
         <div>
           {this.state.Persons.map((person, index) => {
             return <Person 
@@ -78,16 +86,39 @@ class App extends Component {
           }
           )}
        </div>
+       </StyleRoot>
       );
+      style.backgroundColor = 'red'; 
+      style.color = 'white'; 
+      style[':hover'] = {
+        backgroundColor: 'orange',
+        color: 'white'
+
+
+      }
     }
+    let classes = [];
+    if (this.state.Persons.length <= 2 ) {
+      classes.push('red');
+      
+    }
+    if (this.state.Persons.length <= 1 ) {
+      classes.push('bold');
+    }
+    if(classes.length > 0) {
+      classes = classes.join(' ');
+    }
+     
+
+    
+    
+    
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
-        <p>This is really working</p>
-        <button style={style} onClick={()=>this.switchNameHandler('Maximilian!!')}>Swich Name</button> <br/>
-        <button onClick={this.togglePersonHandler}>Display Person Toogle</button>
+        <p className={classes}>This is really working</p>
+        <button style={style} onClick={this.togglePersonHandler}>Display Person Toogle</button>
         <div>
-       
        {Persons}
        </div>
        
@@ -95,5 +126,5 @@ class App extends Component {
     );
   }
 }
-export default App;
+export default Radium(App);
  
